@@ -1,0 +1,48 @@
+function measureDistance () {
+    pins.A2.digitalWrite(false)
+    control.waitMicros(2)
+    pins.A2.digitalWrite(true)
+    control.waitMicros(10)
+    pins.A2.digitalWrite(false)
+    distance = pins.A1.pulseIn(PulseValue.High) / 58
+    light.graph(distance, 60)
+}
+let distance = 0
+music.setVolume(255)
+loops.forever(function () {
+    measureDistance()
+    if (distance >= 50 && distance <= 60) {
+        light.setAll(0x00ffff)
+        console.logValue("waiting....", distance)
+        pause(2000)
+        measureDistance()
+        if (distance >= 50 && distance <= 60) {
+            console.logValue("still the same", distance)
+            light.setAll(0xff0080)
+            pause(100)
+            music.playTone(523, music.beat(BeatFraction.Half))
+            pause(100)
+            music.playTone(392, music.beat(BeatFraction.Half))
+            pause(100)
+            music.playTone(330, music.beat(BeatFraction.Half))
+            pause(100)
+            music.playTone(440, music.beat(BeatFraction.Half))
+            music.playTone(494, music.beat(BeatFraction.Half))
+            music.playTone(466, music.beat(BeatFraction.Quarter))
+            music.playTone(440, music.beat(BeatFraction.Quarter))
+            pause(100)
+            music.playTone(392, music.beat(BeatFraction.Half))
+            music.playTone(659, music.beat(BeatFraction.Quarter))
+            music.playTone(784, music.beat(BeatFraction.Quarter))
+            music.playTone(880, music.beat(BeatFraction.Half))
+            music.playTone(698, music.beat(BeatFraction.Quarter))
+            music.playTone(784, music.beat(BeatFraction.Quarter))
+            pause(100)
+            music.playTone(659, music.beat(BeatFraction.Half))
+            music.playTone(523, music.beat(BeatFraction.Quarter))
+            music.playTone(587, music.beat(BeatFraction.Quarter))
+            music.playTone(494, music.beat(BeatFraction.Half))
+            pause(2000)
+        }
+    }
+})
